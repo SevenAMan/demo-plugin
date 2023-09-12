@@ -11,7 +11,7 @@ class MyToolWindowFactory : ToolWindowFactory {
         val manager = toolWindow.contentManager
         manager.addContent(
 //            TreeWithAnActionContextContent().getContent()
-            ChatContent().getContent()
+            ChatContent(project).getContent()
         )
     }
 

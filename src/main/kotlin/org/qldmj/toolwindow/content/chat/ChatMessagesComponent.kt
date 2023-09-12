@@ -4,8 +4,14 @@ import com.intellij.ui.components.JBLabel
 import javax.swing.JPanel
 
 class ChatMessagesComponent(cms: ChatMessage) : JPanel() {
+
+    val msgComponent = JBLabel(cms.message)
+
     init {
-        val msg = JBLabel(cms.message)
-        add(msg)
+        add(msgComponent)
+    }
+
+    fun updateMsg(msg: String) {
+        msgComponent.text += msg
     }
 }

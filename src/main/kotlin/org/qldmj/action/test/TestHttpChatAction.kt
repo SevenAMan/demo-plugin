@@ -9,10 +9,11 @@ import com.intellij.util.io.readCharSequence
 import io.ktor.utils.io.*
 import org.jetbrains.kotlin.tooling.core.withClosure
 import org.jetbrains.kotlin.utils.addToStdlib.assertedCast
+import org.qldmj.nlp.BaiDuAiToken
 
 class TestHttpChatAction : AnAction("Test Http Chat Action") {
     override fun actionPerformed(event: AnActionEvent) {
-        val project = event.project ?: return
+        /*val project = event.project ?: return
         DialogBuilder(project).apply {
             addOkAction()
             setOkOperation {
@@ -28,20 +29,8 @@ class TestHttpChatAction : AnAction("Test Http Chat Action") {
 
                 }
             }
-        }.show()
+        }.show()*/
+        val message = BaiDuAiToken().getToken()
+        println(message)
     }
 }
-
-/*
-*     @GetMapping("/chat/test")
-    fun getMessages(response: HttpServletResponse) {
-        val msg = "这个是一个ai的chat文本！"
-        response.characterEncoding = "UTF-8"
-        response.contentType = "text/plain"
-        for (c in msg) {
-            response.writer.write(charArrayOf(c))
-            response.flushBuffer()
-            Thread.sleep(200)
-        }
-    }
-* */
