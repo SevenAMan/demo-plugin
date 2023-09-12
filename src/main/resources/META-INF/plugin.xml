@@ -87,6 +87,8 @@
         <psi.referenceContributor language="JSON"
                                   implementation="org.qldmj.json.JsonPsiReferenceContribute"/>
 
+        <!-- coroutine scope service -->
+<!--        <projectService serviceImplementation="org.qldmj.toolwindow.content.chat.CoroutineScope"/>-->
 
         <!--refactor-->
         <!--        <renameHandler implementation="org.qldmj.refactor.MyVariableInplaceRenameHandler"/>-->

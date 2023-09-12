@@ -1,8 +1,6 @@
 package org.qldmj.toolwindow.content.chat
 
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.progress.ProgressIndicator
-import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.addExtension
 import com.intellij.ui.ScrollPaneFactory
@@ -12,6 +10,8 @@ import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 import com.intellij.uiDesigner.core.GridConstraints
 import com.intellij.uiDesigner.core.GridLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.qldmj.nlp.BaiDuAiBot
 import org.qldmj.nlp.MessageItem
 import java.awt.BorderLayout
@@ -19,7 +19,6 @@ import java.awt.FlowLayout
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 import java.awt.Dimension
-
 
 class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
 
@@ -51,13 +50,13 @@ class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
             messagesHistoryPanel.add(QAItemPanel(ChatMessage(true, text)))
             val answer = QAItemPanel(ChatMessage(false, ""))
             messagesHistoryPanel.add(answer)
-            object : Task.Backgroundable(project, "正在生成答案") {
-                override fun run(p0: ProgressIndicator) {
-                    BaiDuAiBot().ask(listOf(MessageItem("user", text))) {
-                        answer.updateAnswer(it)
-                    }
+
+            val scope = project.getService(CoroutineScope::class.java).scope
+            scope.launch(Dispatchers.IO) {
+                BaiDuAiBot().ask(listOf(MessageItem("user", text))) {
+                    launch(Dispatchers.Default) { answer.updateAnswer(it) }
                 }
-            }.queue()
+            }
         }
     }
 
