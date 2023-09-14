@@ -14,8 +14,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2023.2.1")
-  type.set("IU") // Target IDE Platform
+  localPath.set("D:/JetBrains/Toolbox/IntelliJ IDEA Ultimate")
   plugins.set(listOf("java", "Kotlin"))
 }
 

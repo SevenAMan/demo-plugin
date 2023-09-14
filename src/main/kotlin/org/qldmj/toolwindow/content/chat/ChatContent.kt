@@ -54,7 +54,7 @@ class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
             val scope = project.getService(CoroutineScope::class.java).scope
             scope.launch(Dispatchers.IO) {
                 BaiDuAiBot().ask(listOf(MessageItem("user", text))) {
-                    launch(Dispatchers.Default) { answer.updateAnswer(it) }
+                    answer.updateAnswer(it)
                 }
             }
         }

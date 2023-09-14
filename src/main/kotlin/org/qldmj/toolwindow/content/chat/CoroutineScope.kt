@@ -6,5 +6,5 @@ import kotlinx.coroutines.Dispatchers
 
 @Service(value = [Service.Level.PROJECT])
 class CoroutineScope {
-    val scope = CoroutineScope(Dispatchers.Default)
+    val scope = CoroutineScope(Dispatchers.IO)
 }
