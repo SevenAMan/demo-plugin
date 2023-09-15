@@ -19,6 +19,8 @@ import java.awt.FlowLayout
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 import java.awt.Dimension
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 
 class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
 
@@ -43,9 +45,9 @@ class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
                 nonPref, nonPref, nonPref
             )
         )
-        add(panel, BorderLayout.CENTER)
+        add(ScrollPaneFactory.createScrollPane(panel), BorderLayout.CENTER)
         add(questionTextField, BorderLayout.SOUTH)
-        questionTextField.addExtension(AllIcons.Actions.Search, AllIcons.Actions.Search) {
+        val acton = {
             val text = questionTextField.text
             messagesHistoryPanel.add(QAItemPanel(ChatMessage(true, text)))
             val answer = QAItemPanel(ChatMessage(false, ""))
@@ -58,9 +60,28 @@ class ChatContent(private val project: Project) : JPanel(BorderLayout()) {
                 }
             }
         }
+        questionTextField.addExtension(AllIcons.Actions.Search, AllIcons.Actions.Search) {
+            acton()
+        }
+        questionTextField.addKeyListener(object : KeyListener {
+            override fun keyTyped(e: KeyEvent?) {
+            }
+
+            override fun keyPressed(e: KeyEvent?) {
+            }
+
+            override fun keyReleased(e: KeyEvent?) {
+                e.let {
+                    if (e!!.keyCode  == KeyEvent.VK_ENTER) {
+                        acton()
+                    }
+                }
+            }
+
+        })
     }
 
     fun getContent(): Content {
-        return ContentFactory.getInstance().createContent(ScrollPaneFactory.createScrollPane(this), "Chat", false)
+        return ContentFactory.getInstance().createContent(this, "Chat", false)
     }
 }
